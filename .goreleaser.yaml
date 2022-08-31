@@ -1,0 +1,55 @@
+project_name: auth0_exporter
+release:
+  github:
+    owner: raynigon
+    name: auth0_exporter
+builds:
+  - id: auth0_exporter
+    goos:
+    - linux
+    - windows
+    - darwin
+    goarch:
+    - amd64
+    - "386"
+    env:
+      - CGO_ENABLED=0
+      - GO111MODULE=on
+    main: auth0_exporter.go
+    ldflags: -s -w
+      -X github.com/raynigon/auth0_exporter/version.version={{.Version}}
+      -X github.com/raynigon/auth0_exporter/version.gitSHA={{.Commit}}
+      -X github.com/raynigon/auth0_exporter/version.buildTime={{.Date}}
+      -extldflags "-static"
+    flags: -tags netgo -installsuffix netgo
+    binary: auth0_exporter
+    hooks: {}
+dockers:
+  - dockerfile: "./Dockerfile"
+    ids:
+      - auth0_exporter
+    image_templates:
+    - "ghcr.io/raynigon/auth0_exporter:latest"
+    - "ghcr.io/raynigon/auth0_exporter:{{ .Tag }}"
+    - "ghcr.io/raynigon/auth0_exporter:v{{ .Major }}"
+    - "ghcr.io/raynigon/auth0-exporter:latest"
+    - "ghcr.io/raynigon/auth0-exporter:{{ .Tag }}"
+    - "ghcr.io/raynigon/auth0-exporter:v{{ .Major }}"
+archives:
+  - id: auth0_exporter
+    builds:
+      - auth0_exporter
+    format: tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip
+    name_template: "{{ .Binary }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - licence*
+      - LICENCE*
+      - license*
+      - LICENSE*
+      - readme*
+      - README*
+      - changelog*
+      - CHANGELOG*
