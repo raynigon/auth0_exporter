@@ -38,10 +38,6 @@ You can find an deployment definition at: https://github.com/raynigon/auth0_expo
 
 ## Building and running
 
-## Token privileges
-
-**TODO**
-
 ### Build
 
     make build
@@ -98,4 +94,7 @@ Version    | Env		               | Arg		             | Description			           
 \>=`0.0.1` | `A0E_LOG_FORMAT`          | `--log.format`	         | -                                               | `"logfmt"`
 \>=`0.0.1` | `A0E_LOG_OUTPUT`          | `--log.output`	         | -                                               | `"stdout"`
 
+### Auth0 Application Privileges
 
+The following privileges are needed for the Auth0 application:
+**TODO**
