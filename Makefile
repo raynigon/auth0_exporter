@@ -4,7 +4,7 @@ pkgs   =  ./...
 
 PREFIX                  ?= $(shell pwd)
 BIN_DIR                 ?= $(shell pwd)
-DOCKER_IMAGE_NAME       ?= github_billing_exporter
+DOCKER_IMAGE_NAME       ?= ghcr.io/raynigon/auth0-exporter
 DOCKER_IMAGE_TAG        ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
 
 all: format build test
