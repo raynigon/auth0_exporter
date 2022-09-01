@@ -64,7 +64,8 @@ func NewAuth0UsersCollector(config CollectorConfig, ctx context.Context) (Collec
 }
 
 func (auc *Auth0UsersCollector) queryUserCount(opts ...management.RequestOption) (int, error) {
-	response, err := auc.config.Auth0.User.List(opts...)
+	newOpts := append([]management.RequestOption{management.Page(0), management.PerPage(0)}, opts...)
+	response, err := auc.config.Auth0.User.List(newOpts...)
 	if err != nil {
 		return 0, err
 	}
