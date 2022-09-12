@@ -5,6 +5,48 @@
 
 This exporter exposes [Prometheus](https://prometheus.io/) metrics from [Auth0 Management API](https://auth0.com/docs/api/management/v2/).
 
+## Metrics
+```
+# HELP auth0_exporter_build_info A metric with a constant '1' value labeled by version, revision, branch, and goversion from which auth0_exporter was built.
+# TYPE auth0_exporter_build_info gauge
+auth0_exporter_build_info{branch="",goversion="go1.17.13",revision="",version=""} 1
+# HELP auth0_stats_active_users The number of active users that logged in during the last 30 days.
+# TYPE auth0_stats_active_users gauge
+auth0_stats_active_users{domain="<PLACEHOLDER>.auth0.com",tenant="<PLACEHOLDER>"} 123
+# HELP auth0_stats_leaked_passwords Number of breached-password detections in the interval. The interval is given in days.
+# TYPE auth0_stats_leaked_passwords gauge
+auth0_stats_leaked_passwords{domain="<PLACEHOLDER>.auth0.com",interval="1",tenant="<PLACEHOLDER>"} 0
+auth0_stats_leaked_passwords{domain="<PLACEHOLDER>.auth0.com",interval="30",tenant="<PLACEHOLDER>"} 0
+auth0_stats_leaked_passwords{domain="<PLACEHOLDER>.auth0.com",interval="7",tenant="<PLACEHOLDER>"} 0
+# HELP auth0_stats_logins Number of logins in the interval. The interval is given in days.
+# TYPE auth0_stats_logins gauge
+auth0_stats_logins{domain="<PLACEHOLDER>.auth0.com",interval="1",tenant="<PLACEHOLDER>"} 1234
+auth0_stats_logins{domain="<PLACEHOLDER>.auth0.com",interval="30",tenant="<PLACEHOLDER>"} 123
+auth0_stats_logins{domain="<PLACEHOLDER>.auth0.com",interval="7",tenant="<PLACEHOLDER>"} 12
+# HELP auth0_stats_signups Number of signups in the interval. The interval is given in days.
+# TYPE auth0_stats_signups gauge
+auth0_stats_signups{domain="<PLACEHOLDER>.auth0.com",interval="1",tenant="<PLACEHOLDER>"} 12345
+auth0_stats_signups{domain="<PLACEHOLDER>.auth0.com",interval="30",tenant="<PLACEHOLDER>"} 1234
+auth0_stats_signups{domain="<PLACEHOLDER>.auth0.com",interval="7",tenant="<PLACEHOLDER>"} 123
+# HELP auth0_users_blocked The number of blocked users.
+# TYPE auth0_users_blocked gauge
+auth0_users_blocked{domain="<PLACEHOLDER>.auth0.com",tenant="<PLACEHOLDER>"} 123
+# HELP auth0_users_email_verified The number of users which have a verified email address.
+# TYPE auth0_users_email_verified gauge
+auth0_users_email_verified{domain="<PLACEHOLDER>.auth0.com",tenant="<PLACEHOLDER>"} 12345
+# HELP auth0_users_total The number of existing users.
+# TYPE auth0_users_total gauge
+auth0_users_total{domain="<PLACEHOLDER>.auth0.com",tenant="<PLACEHOLDER>"} 12345
+# HELP promhttp_metric_handler_requests_in_flight Current number of scrapes being served.
+# TYPE promhttp_metric_handler_requests_in_flight gauge
+promhttp_metric_handler_requests_in_flight 1
+# HELP promhttp_metric_handler_requests_total Total number of scrapes by HTTP status code.
+# TYPE promhttp_metric_handler_requests_total counter
+promhttp_metric_handler_requests_total{code="200"} 3160
+promhttp_metric_handler_requests_total{code="500"} 0
+promhttp_metric_handler_requests_total{code="503"} 0
+```
+
 
 ## Installation
 
