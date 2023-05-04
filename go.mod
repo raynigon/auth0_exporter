@@ -6,7 +6,7 @@ require (
 	github.com/auth0/go-auth0 v0.17.0
 	github.com/go-kit/kit v0.12.0
 	github.com/go-kit/log v0.2.1
-	github.com/prometheus/client_golang v1.15.0
+	github.com/prometheus/client_golang v1.15.1
 	github.com/prometheus/common v0.42.0
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
 )
