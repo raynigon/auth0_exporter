@@ -3,7 +3,7 @@ module github.com/raynigon/auth0_exporter/v2
 go 1.18
 
 require (
-	github.com/auth0/go-auth0 v0.17.1
+	github.com/auth0/go-auth0 v0.17.2
 	github.com/go-kit/kit v0.12.0
 	github.com/go-kit/log v0.2.1
 	github.com/prometheus/client_golang v1.15.1
