@@ -1,6 +1,8 @@
 GO    := GO111MODULE=on go
-PROMU := $(shell $(GO) env GOPATH)/bin/promu
 pkgs   =  ./...
+FIRST_GOPATH := $(firstword $(subst :, ,$(shell $(GO) env GOPATH)))
+PROMU        := $(FIRST_GOPATH)/bin/promu
+
 
 PREFIX                  ?= $(shell pwd)
 BIN_DIR                 ?= $(shell pwd)
