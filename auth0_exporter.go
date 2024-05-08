@@ -17,7 +17,7 @@ import (
 )
 
 var (
-	gracefulStop = make(chan os.Signal)
+	gracefulStop = make(chan os.Signal, 1)
 )
 
 func registerSignals() {
