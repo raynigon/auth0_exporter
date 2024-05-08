@@ -1,9 +1,8 @@
-GO    := GO111MODULE=on go
+GO    		 	:= GO111MODULE=on go
+GOOPTS       ?=
 GOHOSTOS     ?= $(shell $(GO) env GOHOSTOS)
 GOHOSTARCH   ?= $(shell $(GO) env GOHOSTARCH)
-pkgs   =  ./...
-FIRST_GOPATH := $(firstword $(subst :, ,$(shell $(GO) env GOPATH)))
-PROMU        := $(FIRST_GOPATH)/bin/promu
+FIRST_GOPATH 	:= $(firstword $(subst :, ,$(shell $(GO) env GOPATH)))
 
 ifeq (arm, $(GOHOSTARCH))
 	GOHOSTARM ?= $(shell GOARM= $(GO) env GOARM)
@@ -12,9 +11,11 @@ else
 	GO_BUILD_PLATFORM ?= $(GOHOSTOS)-$(GOHOSTARCH)
 endif
 
-PROMU_VERSION ?= 0.15.0
-PROMU_URL     := https://github.com/prometheus/promu/releases/download/v$(PROMU_VERSION)/promu-$(PROMU_VERSION).$(GO_BUILD_PLATFORM).tar.gz
+PROMU 		 	:= $(FIRST_GOPATH)/bin/promu
+PROMU_VERSION 	?= 0.15.0
+PROMU_URL 		:= https://github.com/prometheus/promu/releases/download/v$(PROMU_VERSION)/promu-$(PROMU_VERSION).$(GO_BUILD_PLATFORM).tar.gz
 
+pkgs   			=  ./...
 
 PREFIX                  ?= $(shell pwd)
 BIN_DIR                 ?= $(shell pwd)
@@ -35,6 +36,8 @@ vet:
 	@echo ">> vetting code"
 	@$(GO) vet $(pkgs)
 
+test: format vet
+
 build: promu
 	@echo ">> building binaries"
 	@$(PROMU) build --prefix $(PREFIX)
@@ -47,7 +50,6 @@ docker:
 	@echo ">> building docker image"
 	@docker build -t "$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)" .
 
-.PHONY: promu
 promu: $(PROMU)
 
 $(PROMU):

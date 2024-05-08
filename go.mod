@@ -1,6 +1,6 @@
 module github.com/raynigon/auth0_exporter/v2
 
-go 1.21
+go 1.21.9
 
 toolchain go1.22.2
 
