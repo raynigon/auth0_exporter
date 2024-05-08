@@ -38,7 +38,6 @@ func registerCollectors(logger log.Logger, config collector.CollectorConfig) {
 	}
 
 	prometheus.MustRegister(collector)
-	prometheus.MustRegister(version.NewCollector("auth0_exporter"))
 }
 
 func waitForTermination(logger log.Logger) {
