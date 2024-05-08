@@ -1,6 +1,6 @@
 module github.com/raynigon/auth0_exporter/v2
 
-go 1.20
+go 1.21
 
 require (
 	github.com/auth0/go-auth0 v1.4.1

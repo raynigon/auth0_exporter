@@ -1,6 +1,8 @@
 package config
 
 import (
+	"context"
+
 	"github.com/auth0/go-auth0/management"
 	"github.com/raynigon/auth0_exporter/v2/collector"
 )
@@ -15,7 +17,8 @@ func filter(ss []string, test func(string) bool) (ret []string) {
 }
 
 func (cfg Auth0ExporterConfig) GetCollectorConfig() collector.CollectorConfig {
-	client, err := management.New(*cfg.domain, management.WithClientCredentials(*cfg.clientId, *cfg.clientSecret))
+	ctx := context.Background()
+	client, err := management.New(*cfg.domain, management.WithClientCredentials(ctx, *cfg.clientId, *cfg.clientSecret))
 	if err != nil {
 		panic(err)
 	}

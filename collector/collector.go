@@ -17,7 +17,7 @@ const (
 )
 
 var (
-	factories = make(map[string]func(CollectorConfig, context.Context) (Collector, error))
+	factories = make(map[string]func(context.Context, CollectorConfig) (Collector, error))
 )
 
 type CollectorConfig struct {
@@ -45,7 +45,7 @@ type collectorEntry struct {
 	value Collector
 }
 
-func registerCollector(name string, factory func(CollectorConfig, context.Context) (Collector, error)) {
+func registerCollector(name string, factory func(context.Context, CollectorConfig) (Collector, error)) {
 	factories[name] = factory
 }
 
@@ -56,8 +56,8 @@ func NewAuth0Collector(config CollectorConfig) (prometheus.Collector, error) {
 	collectors := make(chan collectorEntry, len(factories))
 	errors := make(chan error, len(factories))
 	for name, factory := range factories {
-		go func(name string, factory func(CollectorConfig, context.Context) (Collector, error)) {
-			collector, err := factory(config, ctx)
+		go func(name string, factory func(context.Context, CollectorConfig) (Collector, error)) {
+			collector, err := factory(ctx, config)
 			if err != nil {
 				errors <- err
 				wg.Done()

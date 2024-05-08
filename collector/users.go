@@ -26,8 +26,8 @@ func init() {
 }
 
 // NewOrgActionsCollector returns a new Collector exposing actions billing stats.
-func NewAuth0UsersCollector(config CollectorConfig, ctx context.Context) (Collector, error) {
-	tenant, err := config.Auth0.Tenant.Read()
+func NewAuth0UsersCollector(ctx context.Context, config CollectorConfig) (Collector, error) {
+	tenant, err := config.Auth0.Tenant.Read(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -63,17 +63,17 @@ func NewAuth0UsersCollector(config CollectorConfig, ctx context.Context) (Collec
 	return collector, nil
 }
 
-func (auc *Auth0UsersCollector) queryUserCount(opts ...management.RequestOption) (int, error) {
+func (auc *Auth0UsersCollector) queryUserCount(ctx context.Context, opts ...management.RequestOption) (int, error) {
 	newOpts := append([]management.RequestOption{management.Page(0), management.PerPage(0)}, opts...)
-	response, err := auc.config.Auth0.User.List(newOpts...)
+	response, err := auc.config.Auth0.User.List(ctx, newOpts...)
 	if err != nil {
 		return 0, err
 	}
 	return response.Total, nil
 }
 
-func (auc *Auth0UsersCollector) updateTotalUsers(wg *sync.WaitGroup, errors chan error, ch chan<- prometheus.Metric) {
-	totalUsers, err := auc.queryUserCount()
+func (auc *Auth0UsersCollector) updateTotalUsers(ctx context.Context, wg *sync.WaitGroup, errors chan error, ch chan<- prometheus.Metric) {
+	totalUsers, err := auc.queryUserCount(ctx)
 	if err != nil {
 		errors <- err
 		wg.Done()
@@ -83,8 +83,8 @@ func (auc *Auth0UsersCollector) updateTotalUsers(wg *sync.WaitGroup, errors chan
 	wg.Done()
 }
 
-func (auc *Auth0UsersCollector) updateBlockedUsers(wg *sync.WaitGroup, errors chan error, ch chan<- prometheus.Metric) {
-	blockedUsers, err := auc.queryUserCount(management.Parameter("q", "blocked:true"))
+func (auc *Auth0UsersCollector) updateBlockedUsers(ctx context.Context, wg *sync.WaitGroup, errors chan error, ch chan<- prometheus.Metric) {
+	blockedUsers, err := auc.queryUserCount(ctx, management.Parameter("q", "blocked:true"))
 	if err != nil {
 		errors <- err
 		wg.Done()
@@ -94,8 +94,8 @@ func (auc *Auth0UsersCollector) updateBlockedUsers(wg *sync.WaitGroup, errors ch
 	wg.Done()
 }
 
-func (auc *Auth0UsersCollector) updateEmailVerified(wg *sync.WaitGroup, errors chan error, ch chan<- prometheus.Metric) {
-	emailVerified, err := auc.queryUserCount(management.Parameter("q", "email_verified:true"))
+func (auc *Auth0UsersCollector) updateEmailVerified(ctx context.Context, wg *sync.WaitGroup, errors chan error, ch chan<- prometheus.Metric) {
+	emailVerified, err := auc.queryUserCount(ctx, management.Parameter("q", "email_verified:true"))
 	if err != nil {
 		errors <- err
 		wg.Done()
@@ -119,9 +119,9 @@ func (auc *Auth0UsersCollector) Update(ctx context.Context, ch chan<- prometheus
 	wg := sync.WaitGroup{}
 	wg.Add(metricCount)
 	errors := make(chan error, metricCount)
-	go auc.updateTotalUsers(&wg, errors, ch)
-	go auc.updateBlockedUsers(&wg, errors, ch)
-	go auc.updateEmailVerified(&wg, errors, ch)
+	go auc.updateTotalUsers(ctx, &wg, errors, ch)
+	go auc.updateBlockedUsers(ctx, &wg, errors, ch)
+	go auc.updateEmailVerified(ctx, &wg, errors, ch)
 	wg.Wait()
 	close(errors)
 	for error := range errors {

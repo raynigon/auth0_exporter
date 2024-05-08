@@ -36,8 +36,8 @@ func init() {
 }
 
 // NewOrgActionsCollector returns a new Collector exposing actions billing stats.
-func NewAuth0StatsCollector(config CollectorConfig, ctx context.Context) (Collector, error) {
-	tenant, err := config.Auth0.Tenant.Read()
+func NewAuth0StatsCollector(ctx context.Context, config CollectorConfig) (Collector, error) {
+	tenant, err := config.Auth0.Tenant.Read(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -127,7 +127,7 @@ func (asc *Auth0StatsCollector) Reload(ctx context.Context) error {
 }
 
 func (asc *Auth0StatsCollector) Update(ctx context.Context, ch chan<- prometheus.Metric) error {
-	activeUsers, err := asc.config.Auth0.Stat.ActiveUsers()
+	activeUsers, err := asc.config.Auth0.Stat.ActiveUsers(ctx)
 	if err != nil {
 		return err
 	}
@@ -135,6 +135,7 @@ func (asc *Auth0StatsCollector) Update(ctx context.Context, ch chan<- prometheus
 	from := now.AddDate(0, 0, -30).Format("20060102")
 	to := now.Format("20060102")
 	stats, err := asc.config.Auth0.Stat.Daily(
+		ctx,
 		management.Parameter("from", from),
 		management.Parameter("to", to),
 	)
