@@ -3,18 +3,16 @@ module github.com/raynigon/auth0_exporter/v2
 go 1.25.0
 
 require (
+	github.com/alecthomas/kong v1.16.0
 	github.com/auth0/go-auth0 v1.45.0
 	github.com/go-kit/kit v0.13.0
 	github.com/go-kit/log v0.2.1
 	github.com/prometheus/client_golang v1.24.0
 	github.com/prometheus/common v0.70.0
-	gopkg.in/alecthomas/kingpin.v2 v2.2.6
 )
 
 require (
 	github.com/PuerkitoBio/rehttp v1.4.0 // indirect
-	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751 // indirect
-	github.com/alecthomas/units v0.0.0-20240927000941-0f3dac36c52b // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.4.0 // indirect

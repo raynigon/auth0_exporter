@@ -18,13 +18,13 @@ func filter(ss []string, test func(string) bool) (ret []string) {
 
 func (cfg Auth0ExporterConfig) GetCollectorConfig() collector.CollectorConfig {
 	ctx := context.Background()
-	client, err := management.New(*cfg.domain, management.WithClientCredentials(ctx, *cfg.clientId, *cfg.clientSecret))
+	client, err := management.New(cfg.Domain, management.WithClientCredentials(ctx, cfg.ClientId, cfg.ClientSecret))
 	if err != nil {
 		panic(err)
 	}
 	return collector.CollectorConfig{
 		Logger: cfg.GetLogger(),
-		Domain: cfg.domain,
+		Domain: &cfg.Domain,
 		Auth0:  client,
 	}
 }
