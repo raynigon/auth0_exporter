@@ -1,7 +1,5 @@
-ARG ARCH="amd64"
-ARG OS="linux"
-ARG TARGETPLATFORM=""
-FROM quay.io/prometheus/busybox-${OS}-${ARCH}:glibc
+ARG TARGETPLATFORM="linux/amd64"
+FROM quay.io/prometheus/busybox:glibc
 LABEL maintainer="Simon Schneider <dev@raynigon.com>"
 
 COPY $TARGETPLATFORM/auth0_exporter /bin/auth0_exporter
