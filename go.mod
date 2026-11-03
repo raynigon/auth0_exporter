@@ -3,7 +3,7 @@ module github.com/raynigon/auth0_exporter/v2
 go 1.26.0
 
 require (
-	github.com/alecthomas/kong v1.16.1
+	github.com/alecthomas/kong v1.17.0
 	github.com/auth0/go-auth0 v1.51.0
 	github.com/go-kit/kit v0.13.0
 	github.com/go-kit/log v0.2.1
